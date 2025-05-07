@@ -1,73 +1,26 @@
 # Assignment 4: Git Hooks & Automation 
 Objective
-The objective of this assignment was to implement quality controls and automation within the Git workflow. I explored Git hooks using Husky, automated code checks with lint-staged, validated commit messages with commitlint, and set up a CI pipeline using GitHub Actions.
-Tasks and My Implementation
-1. Repository Setup
-git init
-npm init -y
-2. I began by creating a new Git repository and initializing a Node.js project:
-npm install husky lint-staged prettier eslint commitlint @commitlint/config-conventional --save-dev
-3. Configuring Husky
-I enabled Husky to manage Git hooks:
-npx husky install
-npm set-script prepare "husky install"
-npm run prepare
+The objective of this assignment was to understand and implement automation and quality control within a Git-based development workflow. I aimed to integrate tools like Husky, lint-staged, Prettier, ESLint, commitlint, and GitHub Actions in order to enforce code standards, validate commit messages, and introduce continuous integration into the version control process.
 
-Pre-commit hook to run lint-staged:
-npx husky add .husky/pre-commit "npx lint-staged"
+Tools and Technologies I Used
+Husky: I used Husky to manage Git hooks, allowing me to automate checks such as linting and commit message validation before a commit is finalized.
 
-4. Setting Up lint-staged and Prettier
-In my package.json, I added:
+lint-staged: This tool helped me run linters only on staged files, ensuring that only relevant files were checked and formatted before committing.
 
-"lint-staged": {
-  "*.js": ["eslint --fix", "prettier --write"]
-}
+ESLint: I used ESLint as a static code analysis tool to identify and fix issues in my JavaScript code.
 
-For Prettier configuration, I created a .prettierrc file:
-{
-  "semi": true,
-  "singleQuote": true
-}
+Prettier: I configured Prettier to format my code consistently across the project, reducing formatting-related issues.
 
-5. Setting Up ESLint and Commitlint
-I initialized ESLint using:
+commitlint: To ensure meaningful and properly structured commit messages, I used commitlint based on conventional commit rules.
 
-npx eslint --init
+GitHub Actions: I set up a simple GitHub Actions workflow to run automated checks (such as linting) whenever code was pushed or a pull request was made.
 
-Then I created a commitlint.config.js file:
-module.exports = {
-  extends: ['@commitlint/config-conventional']
-};
+My Thoughts on Git Workflow Automation
+Implementing automation in my Git workflow significantly improved my development process. With pre-commit hooks and commit message validation in place, I was able to catch issues early and maintain a clean and readable commit history. Automation ensured that my code met defined quality standards before it was even pushed to the repository.
 
-6. Testing the Hooks
-I attempted several types of commits:
+Using GitHub Actions for continuous integration added another layer of reliability. It allowed me to automatically run checks on every push and pull request, reducing the risk of introducing errors into the main branch.
 
-With code that failed ESLint rules
-
-With code that was improperly formatted
-
-With invalid commit messages
-
-All were rejected as expected. I then fixed the issues and successfully committed, which confirmed the hooks were working correctly.
-
-7. GitHub Actions CI Setup
-I created a simple CI workflow using GitHub Actions at .github/workflows/ci.yml:
-name: CI - Lint Check
-
-on: [push, pull_request]
-
-jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm ci
-      - run: npm run lint
-
+Overall, I found that integrating these tools not only improved the quality and consistency of my code but also encouraged a more disciplined and professional workflow. It made collaboration smoother and debugging easier, and it gave me a clearer understanding of how modern software teams maintain code quality at scale.
 
 
 
